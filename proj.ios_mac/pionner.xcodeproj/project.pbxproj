@@ -20,7 +20,6 @@
 		4910D9101E14C5840071D204 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4910D90B1E14C5840071D204 /* CloseSelected.png */; };
 		4910D9111E14C5840071D204 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 4910D90C1E14C5840071D204 /* fonts */; };
 		4910D9121E14C5840071D204 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 4910D90D1E14C5840071D204 /* HelloWorld.png */; };
-		4910D9131E14C5840071D204 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 4910D90E1E14C5840071D204 /* res */; };
 		4F774CC79BAEBF19EAF37C5B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D423469DB14A9DB23B9F1DBD /* libcocos2d Mac.a */; };
 		503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 503AE0F617EB97AB00D1A890 /* Icon.icns */; };
 		503AE10017EB989F00D1A890 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 503AE0FB17EB989F00D1A890 /* AppController.mm */; };
@@ -86,7 +85,6 @@
 		4910D90B1E14C5840071D204 /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
 		4910D90C1E14C5840071D204 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		4910D90D1E14C5840071D204 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
-		4910D90E1E14C5840071D204 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		503AE0F617EB97AB00D1A890 /* Icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Icon.icns; sourceTree = "<group>"; };
 		503AE0F717EB97AB00D1A890 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		503AE0FA17EB989F00D1A890 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = ios/AppController.h; sourceTree = SOURCE_ROOT; };
@@ -254,7 +252,6 @@
 				4910D90B1E14C5840071D204 /* CloseSelected.png */,
 				4910D90C1E14C5840071D204 /* fonts */,
 				4910D90D1E14C5840071D204 /* HelloWorld.png */,
-				4910D90E1E14C5840071D204 /* res */,
 				629949999B235C9EF66624EA /* res */,
 			);
 			name = Resources;
@@ -429,7 +426,6 @@
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				4910D90F1E14C5840071D204 /* CloseNormal.png in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
-				4910D9131E14C5840071D204 /* res in Resources */,
 				4910D9101E14C5840071D204 /* CloseSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
