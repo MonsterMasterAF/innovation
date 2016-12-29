@@ -49,14 +49,14 @@ bool Homepage::init()
     // create menu, it's an autorelease object
     Vector<MenuItem*> MenuItems;
     
-    auto backgroundMusicItem = MenuItemImage::create("res/music_on.jpg", "res/music_off.jpg", CC_CALLBACK_1(Homepage::controlMusicCallback, this));
-    //backgroundMusicItem->setAnchorPoint(Vec2(0,0));
-    backgroundMusicItem->setScale(0.5);
-    backgroundMusicItem->setPosition(Vec2(origin.x + visibleSize.width - backgroundMusicItem->getContentSize().width/2 ,
-                                          origin.y + backgroundMusicItem->getContentSize().height/2));
-    auto backgroundSoundEffectItem = MenuItemImage::create("res/play_music.png", "res/play_music.png", "stop_music.png", CC_CALLBACK_1(Homepage::controlMusicCallback, this));
-    backgroundSoundEffectItem->setScale(0.5);
-    backgroundSoundEffectItem->setPosition(Vec2(origin.x+visibleSize.width-backgroundMusicItem->getContentSize().width-backgroundSoundEffectItem->getContentSize().width/2, origin.y+backgroundSoundEffectItem->getContentSize().height/2));
+    auto backgroundMusicItem = MenuItemImage::create("res/soundEffect.png", "res/soundEffect.png", CC_CALLBACK_1(Homepage::controlMusicCallback, this));
+
+    backgroundMusicItem->setScale(0.25);
+    backgroundMusicItem->setPosition(Vec2(origin.x + visibleSize.width - backgroundMusicItem->getContentSize().width/8 ,
+                                          origin.y + backgroundMusicItem->getContentSize().height/8+5));
+    auto backgroundSoundEffectItem = MenuItemImage::create("res/play_music.png", "res/play_music.png", "res/stop.png", CC_CALLBACK_1(Homepage::controlMusicCallback, this));
+    backgroundSoundEffectItem->setScale(0.25);
+    backgroundSoundEffectItem->setPosition(Vec2(origin.x+visibleSize.width-backgroundMusicItem->getContentSize().width/4-backgroundSoundEffectItem->getContentSize().width/8-5, origin.y+backgroundSoundEffectItem->getContentSize().height/8+5));
     MenuItems.pushBack(backgroundMusicItem);
     MenuItems.pushBack(backgroundSoundEffectItem);
     auto menu = Menu::createWithArray(MenuItems);
