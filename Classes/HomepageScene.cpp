@@ -1,9 +1,12 @@
 #include "HomepageScene.h"
-#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;
-BackgroundMusicStatus BGMUSICSTATUS = BackgroundMusicStatus::stop;
+
+//Status Control Global Variable
+EffectStatus EFFECTSTATUS = EffectStatus::enable;
+BackgroundMusicStatus BGMUSICSTATUS = BackgroundMusicStatus::play;
+SettingsStauts SETTINGSTATUS = SettingsStauts::warpped;
 
 Scene* Homepage::createScene()
 {
@@ -34,35 +37,55 @@ bool Homepage::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
     /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(Homepage::menuCloseCallback, this));
+    // menu items
     
-    closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
-
-    // create menu, it's an autorelease object
     Vector<MenuItem*> MenuItems;
+    auto soundOnMenuItem = MenuItemImage::create("soundOnEffect.png", "soundOnEffect.png");
+    //auto soundOnMenuItem = MenuItemImage::create("a.jpg", "a.jpg");
+    auto soundOffMenuItem = MenuItemImage::create("soundOffEffect.png","soundOffEffect.png");
+    auto musicOnMenuItem = MenuItemImage::create("musicOnEffect.png", "musicOnEffect.png");
+    auto musicOffMenuItem = MenuItemImage::create("musicOffEffect.png", "musicOffEffect.png");
+    auto settingsMenuItem = MenuItemImage::create("settings.png", "setting.png");
+    auto settingsWrapMenuItem = MenuItemImage::create("settings.png", "settings.png");
     
-    auto backgroundMusicItem = MenuItemImage::create("res/soundEffect.png", "res/soundEffect.png", CC_CALLBACK_1(Homepage::controlMusicCallback, this));
-
-    backgroundMusicItem->setScale(0.25);
-    backgroundMusicItem->setPosition(Vec2(origin.x + visibleSize.width - backgroundMusicItem->getContentSize().width/8 ,
-                                          origin.y + backgroundMusicItem->getContentSize().height/8+5));
-    auto backgroundSoundEffectItem = MenuItemImage::create("res/play_music.png", "res/play_music.png", "res/stop.png", CC_CALLBACK_1(Homepage::controlMusicCallback, this));
-    backgroundSoundEffectItem->setScale(0.25);
-    backgroundSoundEffectItem->setPosition(Vec2(origin.x+visibleSize.width-backgroundMusicItem->getContentSize().width/4-backgroundSoundEffectItem->getContentSize().width/8-5, origin.y+backgroundSoundEffectItem->getContentSize().height/8+5));
-    MenuItems.pushBack(backgroundMusicItem);
-    MenuItems.pushBack(backgroundSoundEffectItem);
+    auto backgroundMusic = SimpleAudioEngine::getInstance();
+    auto soundEffect = SimpleAudioEngine::getInstance();
+    backgroundMusic->playBackgroundMusic("music.mp3", true);
+    soundEffect->preloadEffect("soundEffect.mp3");
+    //soundEffect->playEffect("soundEffect.mp3");
+    
+    auto backgroundMusicToggleMenu = MenuItemToggle::createWithCallback(CC_CALLBACK_1(Homepage::controlMusicCallback, this, soundEffect),soundOnMenuItem, soundOffMenuItem, NULL);
+    
+    backgroundMusicToggleMenu->setScale(0.5);
+    backgroundMusicToggleMenu->setPosition(Vec2(origin.x + settingsMenuItem->getContentSize().width/2 + 5 + backgroundMusicToggleMenu->getContentSize().width/4 , origin.y + backgroundMusicToggleMenu->getContentSize().height/4+5));
+    
+    auto effectToggleMenu = MenuItemToggle::createWithCallback(CC_CALLBACK_1(Homepage::controlEffectCallback, this, backgroundMusic), musicOnMenuItem,musicOffMenuItem, NULL);
+    
+    effectToggleMenu->setScale(0.5);
+    effectToggleMenu->setPosition(Vec2(origin.x + settingsMenuItem->getContentSize().width/2 + 5 + effectToggleMenu->getContentSize().width/2 + musicOnMenuItem->getContentSize().width/4, origin.y+effectToggleMenu->getContentSize().height/4+5));
+    
+    MenuItems.pushBack(backgroundMusicToggleMenu);
+    MenuItems.pushBack(effectToggleMenu);
     auto menu = Menu::createWithArray(MenuItems);
-    //auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
+
+    // create menu, it's an autorelease object
+    
+    auto settingsToggleMenu = MenuItemToggle::createWithCallback(CC_CALLBACK_1(Homepage::settingsFlyoutCallback, this, menu), settingsMenuItem, settingsWrapMenuItem, NULL);
+    
+    settingsToggleMenu->setScale(0.5);
+    settingsToggleMenu->setPosition(Vec2(origin.x + settingsToggleMenu->getContentSize().width/4 + 5, origin.y + settingsToggleMenu->getContentSize().height/4 + 5));
+    auto settingMenu = Menu::create(settingsToggleMenu, NULL);
+    settingMenu->setPosition(Vec2::ZERO);
+    this->addChild(settingMenu, 1);
+    
+    //auto backDrop = Sprite::create("20160824021133607.jpg");
+    //backDrop->setScale(0.1);
+    //auto backDrop = Sprite::create("a.jpg");
+    //backDrop->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    //this->addChild(backDrop, 0);
+    
 
     /////////////////////////////
     // 3. add your codes below...
@@ -70,7 +93,7 @@ bool Homepage::init()
     // add a label shows "Hello World"
     // create and initialize a label
     
-    auto label = Label::createWithTTF("Tian Tian Ai Xiao Chu", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Tian Tian Ai Xiao Chu", "fonts/Marker Felt.ttf", 48);
     
     // position the label on the center of the screen
     label->setPosition(Vec2(visibleSize.width/2, visibleSize.height/2));
@@ -86,25 +109,68 @@ bool Homepage::init()
 
     // add the sprite as a child to this layer
     //this->addChild(sprite, 0);
+    menu->setVisible(false);
     
     
+    auto listener1 = EventListenerTouchOneByOne::create();
+    listener1->onTouchBegan = [soundEffect](Touch* touch, Event* event)
+    {
+        soundEffect->playEffect("soundEffect.mp3");
+        return  true;
+    };
     
+    listener1->onTouchEnded = [soundEffect](Touch* touch, Event* event)
+    {
+        soundEffect->stopAllEffects();
+    };
+    
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
     
     return true;
 }
 
-void Homepage::controlMusicCallback(Ref* pSender)
+void Homepage::controlMusicCallback(Ref* pSender, SimpleAudioEngine* player)
 {
-    auto audio = SimpleAudioEngine::getInstance();
     if(BGMUSICSTATUS == BackgroundMusicStatus::stop)
     {
-        audio->playBackgroundMusic("music.mp3");
+        player->resumeBackgroundMusic();
         BGMUSICSTATUS = BackgroundMusicStatus::play;
     }
     else if(BGMUSICSTATUS == BackgroundMusicStatus::play)
     {
-        audio->stopBackgroundMusic();
+        player->pauseBackgroundMusic();
         BGMUSICSTATUS = BackgroundMusicStatus::stop;
+    }
+}
+
+void Homepage::controlEffectCallback(Ref* pSender, SimpleAudioEngine* effectGenerator)
+{
+    if(EFFECTSTATUS == EffectStatus::enable)
+    {
+        effectGenerator->setEffectsVolume(0);
+        EFFECTSTATUS = EffectStatus::disable;
+    }
+    else if(EFFECTSTATUS == EffectStatus::disable)
+    {
+        effectGenerator->setEffectsVolume(100);
+        EFFECTSTATUS = EffectStatus::enable;
+    }
+}
+
+void Homepage::settingsFlyoutCallback(Ref* pSender, Menu* controlledMenu)
+{
+    
+    if(SETTINGSTATUS == SettingsStauts::warpped)
+    {
+        controlledMenu->setEnabled(true);
+        controlledMenu->setVisible(true);
+        SETTINGSTATUS = SettingsStauts::extended;
+    }
+    else if(SETTINGSTATUS == SettingsStauts::extended)
+    {
+        controlledMenu->setEnabled(false);
+        controlledMenu->setVisible(false);
+        SETTINGSTATUS = SettingsStauts::warpped;
     }
 }
 
