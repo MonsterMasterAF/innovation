@@ -87,11 +87,11 @@ bool Homepage::init()
     settingMenu->setPosition(Vec2::ZERO);
     this->addChild(settingMenu, 1);
     
-    //auto backDrop = Sprite::create("20160824021133607.jpg");
+    auto backDrop = Sprite::create("abc.jpg");
     //backDrop->setScale(0.1);
     //auto backDrop = Sprite::create("a.jpg");
-    //backDrop->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    //this->addChild(backDrop, 0);
+    backDrop->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    this->addChild(backDrop, 0);
     
 
     /////////////////////////////
