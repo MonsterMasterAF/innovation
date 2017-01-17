@@ -89,9 +89,10 @@ bool Homepage::init()
     
     //auto backDrop = Sprite::create("20160824021133607.jpg");
     //backDrop->setScale(0.1);
-    //auto backDrop = Sprite::create("a.jpg");
-    //backDrop->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    //this->addChild(backDrop, 0);
+    auto backDrop = Sprite::create("abc.jpg");
+    backDrop->setScale(0.6);
+    backDrop->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    this->addChild(backDrop, 0);
     
 
     /////////////////////////////
