@@ -2,7 +2,7 @@
 #include "json/document.h"
 #include "json/writer.h"
 #include "json/stringbuffer.h"
-#include "View/GameScene.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;

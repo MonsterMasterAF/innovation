@@ -1,6 +1,5 @@
 #include "AppDelegate.h"
-#include "HelloWorldScene.h"
-#include "HomepageScene.h"
+#include "View/HomepageScene.h"
 
 USING_NS_CC;
 
